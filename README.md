@@ -3,7 +3,8 @@ Send ntfy notification when your UPS is disconnected - and reconnected
 
 ![screenshot](nut_ntfy.png)
 
-The script is configured for my EATON UPS
+The script is configured for an EATON UPS
+
 /etc/ups.conf :
 ```console
 [EATON]
