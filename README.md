@@ -3,6 +3,15 @@ Send ntfy notification when your UPS is disconnected - and reconnected
 
 ![screenshot](nut_ntfy.png)
 
+The script is configured for my EATON UPS
+/etc/ups.conf :
+```console
+[EATON]
+driver = usbhid-ups
+port = auto
+desc = "EATON usb driver"
+```
+
 
 ## 1 - Install
 Put the file send_ntfy in /etc/nut/
