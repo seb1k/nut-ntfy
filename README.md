@@ -1,6 +1,8 @@
 # nut-ntfy
 Send ntfy notification when your UPS is disconnected
 
+![screenshot](nut_ntfy.png)
+
 
 ## 1 - Install
 Put the file send_ntfy in /etc/nut/
@@ -19,6 +21,13 @@ Replace line 63 and 74 YOUR_NTFY_TOPIC by your ntfy topic
 Use this command and be a message should appear on your ntfy topic
 ```console
  /etc/nut/send_ntfy
+```
+
+## 4 - modify script
+
+By default, the script will send a notification when the UPS reaches the % below, change as you will !
+```console
+alert_at=(25 50 75 85 90 95 98)
 ```
 
 ## 4 - Star me :)
