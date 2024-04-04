@@ -27,7 +27,7 @@ Edit the file /etc/nut/send_ntfy
 Replace line 63 and 74 YOUR_NTFY_TOPIC by your ntfy topic
 
 ## 3 - Test
-Use this command and be a message should appear on your ntfy topic
+Use this command and a message should appear on your ntfy topic
 ```console
  /etc/nut/send_ntfy
 ```
