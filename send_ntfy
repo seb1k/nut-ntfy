@@ -60,7 +60,8 @@ previous_msg=$msg
 
 
 #wget -O /dev/null -o /dev/null "https://smsapi.free-mobile.fr/sendmsg?user=*****&pass==*****&&msg=$msg" // my SMS provider
-curl -H "Tags: rotating_light" -d "$msg" ntfy.sh/YOUR_NTFY_TOPIC
+curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/YOUR_NTFY_TOPIC
+
 }
 
 
@@ -71,8 +72,11 @@ status=$(upsc EATON ups.status 2>/dev/null)
 
 if [ "$status" = "OL" ]; then
 	#wget -O /dev/null -o /dev/null "https://smsapi.free-mobile.fr/sendmsg?user=*****&pass=*****&msg=UPS connected"  // my SMS provider
-	curl -H "Tags: electric_plug" -d "UPS Online" ntfy.sh/YOUR_NTFY_TOPIC
-    echo "Battery is Online, exiting."
+
+	charge=$(upsc EATON battery.charge 2>/dev/null)
+	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/YOUR_NTFY_TOPIC
+
+        echo "Battery is Online, exiting."
 	exit 0
 fi
 
