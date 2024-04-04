@@ -1,0 +1,85 @@
+#!/bin/bash
+
+
+alert_at=(25 50 75 85 90 95 98)
+
+declare previous_msg=""
+
+#quit if process already started
+nb_process=$(pgrep -c send_ntfy)
+if [ $nb_process -ne 1 ]; then
+  echo "send_ntfy is already running $nb_process"
+  exit 1
+fi
+
+
+
+function go_test() {
+  actual=$(upsc EATON battery.charge 2>/dev/null)
+  
+
+  actual=$((actual))
+  
+  #echo battery : $actual
+  
+  
+  go_alert=-1
+  
+	for i in "${alert_at[@]}"; do
+	  (( actual <= i  )) && go_alert=$i && break
+	done
+	
+	
+	if [ $go_alert -ne -1 ]; then
+	
+		echo  Supprime alerte egale et superieur a $go_alert
+		ii=0
+		for i in "${alert_at[@]}"; do
+			(( go_alert <= i  )) && alert_at[$ii]=0
+			((ii++))
+		done
+		
+		send_alert
+	fi
+}
+
+function send_alert() {
+
+secs=$(upsc EATON battery.runtime 2>/dev/null)
+charge=$(upsc EATON battery.charge 2>/dev/null)
+
+
+msg="UPS Offline $charge%, $((secs/60)) mins left (estimated)"
+
+if [ "$previous_msg" = "$msg" ]; then
+	return
+fi
+
+previous_msg=$msg
+
+
+
+#wget -O /dev/null -o /dev/null "https://smsapi.free-mobile.fr/sendmsg?user=*****&pass==*****&&msg=$msg" // my SMS provider
+curl -H "Tags: rotating_light" -d "$msg" ntfy.sh/YOUR_NTFY_TOPIC
+}
+
+
+
+while true; do
+
+status=$(upsc EATON ups.status 2>/dev/null)
+
+if [ "$status" = "OL" ]; then
+	#wget -O /dev/null -o /dev/null "https://smsapi.free-mobile.fr/sendmsg?user=*****&pass=*****&msg=UPS connected"  // my SMS provider
+	curl -H "Tags: electric_plug" -d "UPS Online" ntfy.sh/YOUR_NTFY_TOPIC
+    echo "Battery is Online, exiting."
+	exit 0
+fi
+
+go_test
+sleep 5
+done
+
+
+
+
