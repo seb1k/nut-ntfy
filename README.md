@@ -5,7 +5,7 @@ Send ntfy notification when your UPS is disconnected
 ## 1 - Install
 Put the file send_ntfy in /etc/nut/
 
-chmod 0:740 /etc/nut/send_ntfy
+chmod 740 /etc/nut/send_ntfy
 
 ## 2 - Configure
 Edit the file /etc/nut/upsmon.conf and set the script location to NOTIFYCMD line
