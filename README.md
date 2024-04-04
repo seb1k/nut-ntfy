@@ -1,5 +1,5 @@
 # nut-ntfy
-Send ntfy notification when your UPS is disconnected
+Send ntfy notification when your UPS is disconnected - and reconnected
 
 ![screenshot](nut_ntfy.png)
 
