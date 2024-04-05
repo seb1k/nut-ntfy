@@ -33,13 +33,12 @@ Edit the file /etc/nut/send_ntfy
 
 
 ## 3 - Test
-Send a test message to your ntfy.sh topic bu using this command
+Send a test message to your ntfy.sh topic with this command
 ```console
  /etc/nut/send_ntfy
 ```
 
 ## 4 - modify script
-
 By default, the script will send a notification when the UPS reaches the % below, change as you wish !
 ```console
 alert_at=(25 50 75 85 90 95 98)
