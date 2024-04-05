@@ -17,8 +17,11 @@ desc = "EATON usb driver"
 ## 1 - Install
 Copy the file send_ntfy to /etc/nut/
 
-Set the proper right on the file
-chmod 740 /etc/nut/send_ntfy
+Set the permission on the file :
+```console
+chown root:nut /etc/nut/send_ntfy
+chmod 774 /etc/nut/send_ntfy
+ ```
 
 ## 2 - Configure
 Edit the file /etc/nut/upsmon.conf and set the script location to NOTIFYCMD line
