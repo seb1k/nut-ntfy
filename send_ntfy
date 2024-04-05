@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ntfy_topic="YOUR_NTFY_TOPIC"
 UPS_name="" # set your UPS name here, use "upsc -l" to find it
 alert_at=(25 50 75 85 90 95 98)
 
@@ -81,7 +82,7 @@ fi
 
 previous_msg=$msg
 
-curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/YOUR_NTFY_TOPIC
+curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/$ntfy_topic
 
 }
 
@@ -94,7 +95,7 @@ status=$(upsc $UPS_name ups.status 2>/dev/null)
 if [ "$status" = "OL" ]; then
 
 	charge=$(upsc $UPS_name battery.charge 2>/dev/null)
-	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/YOUR_NTFY_TOPIC
+	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/$ntfy_topic
 
         echo "Battery is Online, exiting."
 	exit 0
