@@ -3,7 +3,7 @@ Send ntfy notification when your UPS is disconnected - and reconnected
 
 ![screenshot](nut_ntfy.png)
 
-The script is configured for an EATON UPS
+The script is tested on an EATON UPS
 
 /etc/ups.conf :
 ```console
@@ -26,7 +26,7 @@ NOTIFYCMD "/etc/nut/send_ntfy"
 
 Edit the file /etc/nut/send_ntfy
 Replace line 63 and 74 YOUR_NTFY_TOPIC by your ntfy topic
-
+Add your UPS name on line 3 : UPS_name="YOUR_UPS_NAME" (You can find it with "upsc -l")
 ## 3 - Test
 Use this command and a message should appear on your ntfy topic
 ```console
