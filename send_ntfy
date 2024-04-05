@@ -1,7 +1,31 @@
 #!/bin/bash
 
-
+UPS_name="" # set your UPS name here, use "upsc -l" to find it
 alert_at=(25 50 75 85 90 95 98)
+
+
+
+if [[ -z "$UPS_name" ]]; then
+
+	UPS_name=$(upsc -l 2>/dev/null)
+	
+	if [[ "$UPS_name" ]]; then
+		echo "UPS_name not set, using \"$UPS_name\""
+		
+		actual=$(upsc $UPS_name battery.charge 2>/dev/null)
+		actual=$((actual))
+		
+		if ! [[ "$actual" =~ ^[0-9]+$ ]]; then
+			echo "ERROR : charge on the UPS not found" >&2; exit 1 
+		fi
+
+	else
+		echo "UPS_name not set, nothing found"
+		exit 1
+	fi
+
+fi
+
 
 declare previous_msg=""
 
@@ -15,7 +39,7 @@ fi
 
 
 function go_test() {
-  actual=$(upsc EATON battery.charge 2>/dev/null)
+  actual=$(upsc $UPS_name battery.charge 2>/dev/null)
   
 
   actual=$((actual))
@@ -45,8 +69,8 @@ function go_test() {
 
 function send_alert() {
 
-secs=$(upsc EATON battery.runtime 2>/dev/null)
-charge=$(upsc EATON battery.charge 2>/dev/null)
+secs=$(upsc $UPS_name battery.runtime 2>/dev/null)
+charge=$(upsc $UPS_name battery.charge 2>/dev/null)
 
 
 msg="$charge%, $((secs/60)) mins left (estimated)"
@@ -65,11 +89,11 @@ curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/YOUR_NT
 
 while true; do
 
-status=$(upsc EATON ups.status 2>/dev/null)
+status=$(upsc $UPS_name ups.status 2>/dev/null)
 
 if [ "$status" = "OL" ]; then
 
-	charge=$(upsc EATON battery.charge 2>/dev/null)
+	charge=$(upsc $UPS_name battery.charge 2>/dev/null)
 	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/YOUR_NTFY_TOPIC
 
         echo "Battery is Online, exiting."
@@ -79,7 +103,4 @@ fi
 go_test
 sleep 5
 done
-
-
-
 
