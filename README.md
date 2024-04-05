@@ -27,7 +27,7 @@ NOTIFYCMD "/etc/nut/send_ntfy"
 
 Edit the file /etc/nut/send_ntfy
 
-- Line 3 : replace line YOUR_NTFY_TOPIC by your ntfy topic
+- Line 3 : replace line YOUR_NTFY_TOPIC by your ntfy.sh topic
 - Line 4 : Add your UPS name on : UPS_name="YOUR_UPS_NAME" (You can find it with "upsc -l")
 
 
