@@ -38,7 +38,7 @@ Edit the file /etc/nut/send_ntfy
 ## 3 - Test
 Send a test message to your ntfy.sh topic with this command
 ```console
- /etc/nut/send_ntfy
+ /etc/nut/send_ntfy test
 ```
 
 ## 4 - modify script
