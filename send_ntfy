@@ -106,11 +106,10 @@ if [ "$status" = "OL" ]; then
 		exit 0							# exit
 	fi
 	
-	#wget -O /dev/null -o /dev/null "https://smsapi.free-mobile.fr/sendmsg?user=29505404&pass=d6H6CIIdyIqibD&msg=Proxmox : UPS connected"
 	
 	charge=$(upsc $UPS_name battery.charge 2>/dev/null)
 
-	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/sebmail646464
+	curl -H "Tags: electric_plug" -H "Title: UPS Online" -d "$charge%" ntfy.sh/$ntfy_topic
     echo "Battery is Online, exiting."
 	exit 0
 fi
