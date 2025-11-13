@@ -30,6 +30,29 @@ fi
 
 declare previous_msg=""
 
+function send_alert() {
+
+secs=$(upsc $UPS_name battery.runtime 2>/dev/null)
+charge=$(upsc $UPS_name battery.charge 2>/dev/null)
+
+
+msg="$charge%, $((secs/60)) mins left (estimated)"
+
+if [ "$previous_msg" = "$msg" ]; then
+	return
+fi
+
+previous_msg=$msg
+
+curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/$ntfy_topic
+
+}
+
+if [ "$1" = "test" ]; then
+    send_alert
+	exit 0
+fi
+
 #quit if process already started
 nb_process=$(pgrep -c send_ntfy)
 if [ $nb_process -ne 1 ]; then
@@ -68,23 +91,7 @@ function go_test() {
 	fi
 }
 
-function send_alert() {
 
-secs=$(upsc $UPS_name battery.runtime 2>/dev/null)
-charge=$(upsc $UPS_name battery.charge 2>/dev/null)
-
-
-msg="$charge%, $((secs/60)) mins left (estimated)"
-
-if [ "$previous_msg" = "$msg" ]; then
-	return
-fi
-
-previous_msg=$msg
-
-curl -H "Tags: rotating_light" -H "Title: UPS Offline" -d "$msg" ntfy.sh/$ntfy_topic
-
-}
 
 
 
